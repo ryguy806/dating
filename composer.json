@@ -1,0 +1,12 @@
+{
+  "name": "rguelzo/328/dating",
+  "authors": [
+    {
+      "name": "Ryan Guelzo",
+      "email": "rguelzo@mail.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
