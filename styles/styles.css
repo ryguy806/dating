@@ -2,7 +2,7 @@ p{
     text-align: left;
 
 }
-img{
+#bootstrap-override img{
     position: relative;
     left: 35%;
     padding: 50pt;
