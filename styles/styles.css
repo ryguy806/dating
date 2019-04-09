@@ -3,7 +3,22 @@ p{
 
 }
 #bootstrap-override img{
+    vertical-align: middle;
     position: relative;
     left: 35%;
-    padding: 50pt;
+    padding: 40pt;
+    height: 50%;
+    width: 50%
+}
+.col{
+    float: left;
+    width: 50%;
+}
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+.title{
+    alignment: center;
 }
