@@ -1,13 +1,9 @@
+p{
+    text-align: left;
+
+}
 img{
-    height: 75%;
-    width: 75%;
-}
-.container{
-    color: darkgrey;
-}
-botton{
-    height: 30pt;
-    width: 70pt;
-    color: dodgerblue;
-    alignment: bottom;
+    position: relative;
+    left: 35%;
+    padding: 50pt;
 }
