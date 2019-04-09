@@ -5,3 +5,9 @@ img{
 .container{
     color: darkgrey;
 }
+botton{
+    height: 30pt;
+    width: 70pt;
+    color: dodgerblue;
+    alignment: bottom;
+}
