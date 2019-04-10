@@ -1,14 +1,12 @@
-p{
-    text-align: left;
 
-}
 #bootstrap-override img{
     vertical-align: middle;
     position: relative;
     left: 35%;
     padding: 40pt;
     height: 50%;
-    width: 50%
+    width: 50%;
+    text-align: center;
 }
 .col{
     float: left;
