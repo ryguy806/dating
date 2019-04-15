@@ -12,6 +12,9 @@ error_reporting(E_ALL);
 //require the autoload
 require_once('vendor/autoload.php');
 
+//Includes the header form
+include('views/header.html');
+
 //Creates the instance of the base class
 $f3 = Base::instance();
 
@@ -19,6 +22,10 @@ $f3 = Base::instance();
 $f3->route('GET /', function (){
     $view = new Template();
     echo $view->render('views/home.html');
+});
+$f3->route('GET /', function (){
+   $view = new Template();
+   $view->render('views/personalinformation.html');
 });
 
 //Run fat-free
