@@ -5,6 +5,8 @@
  * Date: 04/08/19
  */
 
+session_start();
+
 //error reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -13,22 +15,22 @@ error_reporting(E_ALL);
 require_once('vendor/autoload.php');
 
 //Includes the header form
-include('views/header.html');
+//include('views/header.html');
 
 //Creates the instance of the base class
 $f3 = Base::instance();
 
 //Specified the default route
-$f3->route('GET /', function (){
+$f3->route('GET /home', function (){
     $view = new Template();
     echo $view->render('views/home.html');
 });
-$f3->route('GET /', function (){
+$f3->route('GET /profile-start', function (){
    $view = new Template();
    $view->render('views/personalinformation.html');
 });
 
-$f3->route('GET /', function (){
+$f3->route('GET /profile-continue', function (){
     $view = new Template();
     $view->render('views/profileEntry.html');
 });
