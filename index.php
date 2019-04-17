@@ -25,12 +25,33 @@ $f3->route('GET /home', function (){
     $view = new Template();
     echo $view->render('views/home.html');
 });
-$f3->route('GET /profile-start', function (){
+$f3->route('POST /profile-start', function (){
+
+    $_SESSION['lastname'] = $_POST['firstname'];
+    $_SESSION['lastname'] = $_POST['lastname'];
+    $_SESSION['age'] = $_POST['age'];
+    $_SESSION['gender'] = $_POST['gender'];
+    $_SESSION['phone'] = $_POST['phone'];
+
    $view = new Template();
    $view->render('views/personalinformation.html');
 });
 
 $f3->route('GET /profile-continue', function (){
+
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['state'] = $_POST['state'];
+    $_SESSION['seeking'] = $_POST['seeking'];
+    $_SESSION['bio'] = $_POST['bio'];
+
+    $view = new Template();
+    $view->render('views/profileEntry.html');
+});
+
+$f3->route('GET /profile-continue', function (){
+
+    $_SESSION[] = $_POST[];
+
     $view = new Template();
     $view->render('views/profileEntry.html');
 });
