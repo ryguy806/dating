@@ -28,6 +28,11 @@ $f3->route('GET /', function (){
    $view->render('views/personalinformation.html');
 });
 
+$f3->route('GET /', function (){
+    $view = new Template();
+    $view->render('views/profileEntry.html');
+});
+
 //Run fat-free
 $f3->run();
 ?>

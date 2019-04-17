@@ -4,7 +4,7 @@
     <a class="navbar-brand" href="#">D&D Party Dating</a>
 </nav>
 <!--Need to add the action!-->
-<form method="post" action="">
+<form method="post" action="profileEntry.html">
 
     <label for="firstname">First Name:</label>
     <input type="text" id="firstname">
@@ -12,8 +12,10 @@
     <input type="text" id="lastname">
     <label for="age">Age:</label>
     <input type="number" id="age">
-    <input type="radio" id="male" name="gender[]" value="m">Male
-    <input type="radio" id="female" name="gender[]" value="f">Female
+    <label>
+        <input type="radio" id="male" name="gender[]" value="m">Male
+        <input type="radio" id="female" name="gender[]" value="f">Female
+    </label>
     <label for="phone">Phone Number:</label>
     <input type="tel" id="phone">
     <input type="submit" value="Next">
