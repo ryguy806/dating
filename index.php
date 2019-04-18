@@ -15,13 +15,14 @@ error_reporting(E_ALL);
 require_once('vendor/autoload.php');
 
 //Includes the header form
-//include('views/header.html');
+include('views/header.html');
 
 //Creates the instance of the base class
 $f3 = Base::instance();
 
 //Specified the default route
-$f3->route('GET /home', function (){
+$f3->route('GET /', function (){
+
     $view = new Template();
     echo $view->render('views/home.html');
 });
@@ -37,7 +38,7 @@ $f3->route('POST /profile-start', function (){
    $view->render('views/personalinformation.html');
 });
 
-$f3->route('GET /profile-continue', function (){
+$f3->route('POST /profile-continue', function (){
 
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['state'] = $_POST['state'];
@@ -48,14 +49,22 @@ $f3->route('GET /profile-continue', function (){
     $view->render('views/profileEntry.html');
 });
 
-$f3->route('GET /profile-continue', function (){
+$f3->route('POST /profile-interests', function (){
 
-    $_SESSION[] = $_POST[];
+    $_SESSION['indoor'] = $_POST['indoor'];
+    $_SESSION['outdoor'] = $_POST['outdoor'];
 
     $view = new Template();
-    $view->render('views/profileEntry.html');
+    $view->render('views/interests.html');
+});
+
+$f3->route('GET /profile-summary', function (){
+
+
+
+    $view = new Template();
+    $view->render('views/summary.html');
 });
 
 //Run fat-free
 $f3->run();
-?>
