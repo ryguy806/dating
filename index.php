@@ -43,7 +43,7 @@ $f3->route('GET|POST /profile-continue', function (){
 
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['state'] = $_POST['state'];
-    $_SESSION['seeking'] = $_POST['seeking'];
+    $_SESSION['seeking'] = $_POST['seeking[]'];
     $_SESSION['bio'] = $_POST['bio'];
 
     $view = new Template();
@@ -52,8 +52,9 @@ $f3->route('GET|POST /profile-continue', function (){
 
 $f3->route('GET|POST /profile-interests', function (){
 
-    $_SESSION['indoor'] = $_POST['indoor'];
-    $_SESSION['outdoor'] = $_POST['outdoor'];
+    $_SESSION['indoor'] = $_POST['indoor[]'];
+    $_SESSION['outdoor'] = $_POST['outdoor[]'];
+    $_SESSION['bio'] = $_POST['bio'];
 
     $view = new Template();
     echo $view->render('views/interests.html');
