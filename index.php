@@ -59,7 +59,7 @@ $f3->route('GET|POST /profile-interests', function (){
     echo $view->render('views/interests.html');
 });
 
-$f3->route('GET|POST /profile-summary', function (){
+$f3->route('GET|POST /summary', function (){
 
 
 
