@@ -35,8 +35,7 @@ $f3->route('GET|POST /profile-start', function (){
 
 $f3->route('GET|POST /profile-continue', function (){
 
-    $_SESSION['fistname'] = $_POST['firstname'];
-    $_SESSION['lastname'] = $_POST['lastname'];
+    $_SESSION['name'] = $_POST['firstname'] . " " . $_POST['lastname'];
     $_SESSION['age'] = $_POST['age'];
     $_SESSION['gender'] = $_POST['gender'];
     $_SESSION['phone'] = $_POST['phone'];
@@ -46,7 +45,6 @@ $f3->route('GET|POST /profile-continue', function (){
 });
 
 $f3->route('GET|POST /profile-interests', function (){
-
 
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['state'] = $_POST['state'];
