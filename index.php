@@ -35,7 +35,8 @@ $f3->route('GET|POST /profile-start', function (){
 
 $f3->route('GET|POST /profile-continue', function (){
 
-    $_SESSION['name'] = $_POST['firstname'] . " " . $_POST['lastname'];
+    $_SESSION['firstname'] = $_POST['firstname'];
+    $_SESSION['lastname'] = $_POST['lastname'];
     $_SESSION['age'] = $_POST['age'];
     $_SESSION['gender'] = $_POST['gender'];
     $_SESSION['phone'] = $_POST['phone'];
@@ -57,8 +58,9 @@ $f3->route('GET|POST /profile-interests', function (){
 
 $f3->route('GET|POST /summary', function (){
 
-    $_SESSION['indoor'] = $_POST['indoor'];
-    $_SESSION['outdoor'] = $_POST['outdoor'];
+    $_SESSION['indoor'] = implode(', ', $_POST['indoor']);
+    $_SESSION['outdoor'] = implode(', ', $_POST['outdoor']);
+
 
     $view = new Template();
     echo $view->render('views/summary.html');
