@@ -26,11 +26,11 @@ function validForm3()
     $isValid = true;
     if (!validOutdoor($f3->get('outdoor'))) {
         $isValid = false;
-        $f3->set("errors['outdoor']", "");
+        $f3->set("errors['outdoor']", "Selection not valid.");
     }
-    if (!validIndoor($f3->get('age'))) {
+    if (!validIndoor($f3->get('indoor'))) {
         $isValid = false;
-        $f3->set("errors['age']", "Please enter 1 or more.");
+        $f3->set("errors['indoor']", "Selection not valid.");
     }
     return $isValid;
 }

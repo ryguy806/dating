@@ -12,6 +12,7 @@ error_reporting(E_ALL);
 
 //require the autoload
 require_once('vendor/autoload.php');
+require('model/validation.php');
 
 //Includes the header form
 //include('views/header.html');
@@ -73,37 +74,38 @@ $f3->route('GET|POST /profile-continue', function ($f3){
 
 $f3->route('GET|POST /profile-interests', function ($f3){
 
-    $email = $_POST['email'];
-    $state = $_POST['state'];
-    $seeking = $_POST['seeking'];
-    $bio = $_POST['bio'];
+    if(!empty($_POST)) {
+        $email = $_POST['email'];
+        $state = $_POST['state'];
+        $seeking = $_POST['seeking'];
+        $bio = $_POST['bio'];
 
-    $f3->set('email', $email);
-    $f3->set('state', $state);
-    $f3->set('seeking', $seeking);
-    $f3->set('bio', $bio);
+        $f3->set('email', $email);
+        $f3->set('state', $state);
+        $f3->set('seeking', $seeking);
+        $f3->set('bio', $bio);
 
-    if(validEmail()){
-        $_SESSION['email'] = $_POST['email'];
-        if(!empty($state)){
-            $_SESSION['state'] = $state;
-        }
-        else{
-            $_SESSION['state'] = 'No state selected.';
-        }
-        if(!empty($seeking)){
-            $_SESSION['seeking'] = $seeking;
-        }
-        else{
-            $_SESSION['seeking'] = 'No input.';
-        }if(!empty($bio)){
-            $_SESSION['bio'] = $bio;
-        }
-        else{
-            $_SESSION['bio'] = 'No bio entered.';
+
+        if (validEmail($f3->get('email'))) {
+            $_SESSION['email'] = $_POST['email'];
+            if (!empty($state)) {
+                $_SESSION['state'] = $state;
+            } else {
+                $_SESSION['state'] = 'No state selected.';
+            }
+            if (!empty($seeking)) {
+                $_SESSION['seeking'] = $seeking;
+            } else {
+                $_SESSION['seeking'] = 'No input.';
+            }
+            if (!empty($bio)) {
+                $_SESSION['bio'] = $bio;
+            } else {
+                $_SESSION['bio'] = 'No bio entered.';
+            }
+            $f3->reroute('/summary');
         }
     }
-
 
     $view = new Template();
     echo $view->render('views/interests.html');
@@ -118,22 +120,17 @@ $f3->route('GET|POST /summary', function ($f3){
         $f3->set('indoor', $indoor);
 
         if (validForm3()) {
-            if(!empty($outdoor)){
+            if(!empty($outdoor) && !empty($indoor)){
                 $_SESSION['outdoor'] = implode(', ', $outdoor);
-            }
-            else{
-                $_SESSION['outdoor'] = 'No outdoor selections made.';
-            }
-            if(!empty($outdoor)){
                 $_SESSION['indoor'] = implode(', ', $indoor);
             }
             else{
+                $_SESSION['outdoor'] = 'No outdoor selections made.';
                 $_SESSION['indoor'] = 'No indoor selections made.';
             }
         }
 
     }
-
 
     $view = new Template();
     echo $view->render('views/summary.html');
