@@ -28,16 +28,9 @@ $f3->route('GET|POST /', function (){
     echo $view->render('views/home.html');
 });
 
-$f3->route('GET|POST /profile-start', function (){
+$f3->route('GET|POST /profile-start', function ($f3){
 
-//echo "here";
-   $view = new Template();
-   echo $view->render('views/personalinformation.html');
-});
-
-$f3->route('GET|POST /profile-continue', function ($f3){
-
-    if(!empty($_POST)) {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         //get the form data
         $firstname = $_POST['firstname'];
@@ -64,15 +57,16 @@ $f3->route('GET|POST /profile-continue', function ($f3){
                 $_SESSION['gender'] = 'No gender selected.';
             }
             $_SESSION['phone'] = $phone;
-
-            $f3->reroute('/profile-interests');
+            $f3->reroute('/profile-continue');
         }
+
     }
-    $view = new Template();
-    echo $view->render('views/profileEntry.html');
+//echo "here";
+   $view = new Template();
+   echo $view->render('views/personalinformation.html');
 });
 
-$f3->route('GET|POST /profile-interests', function ($f3){
+$f3->route('GET|POST /profile-continue', function ($f3){
 
     if(!empty($_POST)) {
         $email = $_POST['email'];
@@ -103,15 +97,16 @@ $f3->route('GET|POST /profile-interests', function ($f3){
             } else {
                 $_SESSION['bio'] = 'No bio entered.';
             }
-            $f3->reroute('/summary');
+            $f3->reroute('/profile-interests');
         }
     }
 
     $view = new Template();
-    echo $view->render('views/interests.html');
+    echo $view->render('views/profileEntry.html');
 });
 
-$f3->route('GET|POST /summary', function ($f3){
+$f3->route('GET|POST /profile-interests', function ($f3){
+
     if(!empty($_POST)) {
         $outdoor = $_POST['outdoor'];
         $indoor = $_POST['indoor'];
@@ -128,9 +123,17 @@ $f3->route('GET|POST /summary', function ($f3){
                 $_SESSION['outdoor'] = 'No outdoor selections made.';
                 $_SESSION['indoor'] = 'No indoor selections made.';
             }
+            $f3->reroute('/summary');
         }
 
     }
+
+    $view = new Template();
+    echo $view->render('views/interests.html');
+});
+
+$f3->route('GET|POST /summary', function ($f3){
+
 
     $view = new Template();
     echo $view->render('views/summary.html');

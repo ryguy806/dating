@@ -8,14 +8,17 @@ function validForm1()
     if (!validname($f3->get('firstname'), $f3->get('lastname'))) {
         $isValid = false;
         $f3->set("errors['name']", "Not a valid name, please enter a valid name.");
+        echo "Failed name";
     }
     if (!validAge($f3->get('age'))) {
         $isValid = false;
         $f3->set("errors['age']", "Please enter 1 or more.");
+        echo "Failed Age";
     }
     if (!validPhone($f3->get('phone'))) {
         $isValid = false;
         $f3->set("errors['phone']", "Please enter a valid phone number (123-456-7890).");
+        echo "Failed Phone";
     }
     return $isValid;
 }
@@ -27,16 +30,18 @@ function validForm3()
     if (!validOutdoor($f3->get('outdoor'))) {
         $isValid = false;
         $f3->set("errors['outdoor']", "Selection not valid.");
+        echo "Failed outdoor";
     }
     if (!validIndoor($f3->get('indoor'))) {
         $isValid = false;
         $f3->set("errors['indoor']", "Selection not valid.");
+        echo "Failed indoor";
     }
     return $isValid;
 }
 
-function validName($fname, $lname){
-    return (!empty($fname) && ctype_alpha($fname)) && (!empty($lname) && ctype_alpha($lname));
+function validName($firstname, $lastname){
+    return (!empty($firstname . $lastname) && ctype_alpha($firstname . $lastname));
 }
 
 function validAge($age){
@@ -44,7 +49,7 @@ function validAge($age){
 }
 
 function validPhone($phone){
-    return preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $phone);
+    return preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $phone);
 }
 
 function validEmail($email){
