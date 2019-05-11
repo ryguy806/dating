@@ -5,18 +5,9 @@
  * Date: 04/08/19
  */
 
-//Turn on Fat-Free error reporting
-set_exception_handler(function($obj) use($f3){
-    $f3->error(500,$obj->getmessage(),$obj->gettrace());
-});
-set_error_handler(function($code,$text) use($f3)
-{
-    if (error_reporting())
-    {
-        $f3->error(500,$text);
-    }
-});
-$f3->set('DEBUG', 3);
+//Error reporting
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 //require the autoload
 require_once('vendor/autoload.php');
@@ -80,12 +71,6 @@ $f3->route('GET|POST /profile-start', function ($f3){
 
 $f3->route('GET|POST /profile-continue', function ($f3){
 
-    echo $_SESSION['member']->getLname();
-    echo $_SESSION['member']->getFname();
-    echo $_SESSION['member']->getAge();
-    echo $_SESSION['member']->getGender();
-    echo $_SESSION['member']->getPhone();
-
     if(!empty($_POST)) {
         $email = $_POST['email'];
         $state = $_POST['state'];
@@ -140,12 +125,20 @@ $f3->route('GET|POST /profile-interests', function ($f3){
 
         if (validForm3()) {
             if(!empty($outdoor) && !empty($indoor)){
-                $_SESSION['member']->setOutDoorInterests(implode(', ', $outdoor));
-                $_SESSION['member']->setInDoorInterests(implode(', ', $indoor));
+                foreach ($indoor as $interest)
+                {
+                    $_SESSION['member']->setIndoorInterests($interest);
+                }
+                foreach ($outdoor as $interest)
+                {
+                    $_SESSION['member']->setOutdoorInterests($interest);
+                }
+                $_SESSION['indoor'] = implode($_SESSION['member']->getInDoorInterests());
+                $_SESSION['outdoor'] = implode($_SESSION['member']->getOutDoorInterests());
             }
             else{
-                $_SESSION['outdoor'] = 'Not available for Non-Premium Members.';
-                $_SESSION['indoor'] = 'Not available for Non-Premium Members.';
+                $_SESSION['member']->setInDoorInterests("Not available to Non-Premium Members.");
+                $_SESSION['member']->setOutDoorInterests("Not available to Non-Premium Members.");
             }
             $f3->reroute('/summary');
         }
