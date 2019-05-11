@@ -32,6 +32,12 @@ $f3->route('GET|POST /profile-start', function ($f3){
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+        $member = $_POST['premium'];
+        if($member == checked){
+
+
+        }
+
         //get the form data
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
