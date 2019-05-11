@@ -4,18 +4,25 @@
  * User: Ryan Guelzo
  * Date: 04/08/19
  */
-session_start();
 
-//error reporting
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+//Turn on Fat-Free error reporting
+set_exception_handler(function($obj) use($f3){
+    $f3->error(500,$obj->getmessage(),$obj->gettrace());
+});
+set_error_handler(function($code,$text) use($f3)
+{
+    if (error_reporting())
+    {
+        $f3->error(500,$text);
+    }
+});
+$f3->set('DEBUG', 3);
 
 //require the autoload
 require_once('vendor/autoload.php');
 require('model/validation.php');
 
-//Includes the header form
-//include('views/header.html');
+session_start();
 
 //Creates the instance of the base class
 $f3 = Base::instance();
@@ -32,11 +39,7 @@ $f3->route('GET|POST /profile-start', function ($f3){
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $member = $_POST['premium'];
-        if($member == checked){
-
-
-        }
+        $memberStatus = $_POST['premium'];
 
         //get the form data
         $firstname = $_POST['firstname'];
@@ -51,18 +54,21 @@ $f3->route('GET|POST /profile-start', function ($f3){
         $f3->set('age', $age);
         $f3->set('gender', $gender);
         $f3->set('phone', $phone);
+        $f3->set('member', $memberStatus);
 
         if(validForm1()){
-            $_SESSION['firstname'] = $firstname;
-            $_SESSION['lastname'] = $lastname;
-            $_SESSION['age'] = $age;
-            if(!empty($gender)){
-                $_SESSION['gender'] = $gender;
+            if(empty($gender)) {
+                $gender = 'No gender selected.';
+            }
+            if(!empty($memberStatus)){
+                $premium = new PremiumMemeber($firstname, $lastname, $age, $gender, $phone);
+                $_SESSION['member'] = $premium;
             }
             else{
-                $_SESSION['gender'] = 'No gender selected.';
+                $member = new Member($firstname, $lastname, $age, $gender, $phone);
+                $_SESSION['member'] = $member;
             }
-            $_SESSION['phone'] = $phone;
+
             $f3->reroute('/profile-continue');
         }
 
@@ -73,6 +79,12 @@ $f3->route('GET|POST /profile-start', function ($f3){
 });
 
 $f3->route('GET|POST /profile-continue', function ($f3){
+
+    echo $_SESSION['member']->getLname();
+    echo $_SESSION['member']->getFname();
+    echo $_SESSION['member']->getAge();
+    echo $_SESSION['member']->getGender();
+    echo $_SESSION['member']->getPhone();
 
     if(!empty($_POST)) {
         $email = $_POST['email'];
@@ -87,23 +99,29 @@ $f3->route('GET|POST /profile-continue', function ($f3){
 
 
         if (validEmail($f3->get('email'))) {
-            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['member']->setEmail($email);
             if (!empty($state)) {
-                $_SESSION['state'] = $state;
+                $_SESSION['member']->setState($state);
             } else {
-                $_SESSION['state'] = 'No state selected.';
+                $_SESSION['member']->setState('No state selected.');
             }
             if (!empty($seeking)) {
-                $_SESSION['seeking'] = $seeking;
+                $_SESSION['member']->setSeeking($seeking);
             } else {
-                $_SESSION['seeking'] = 'No input.';
+                $_SESSION['member']->setSeeking('No seeking selected.');
             }
             if (!empty($bio)) {
-                $_SESSION['bio'] = $bio;
+                $_SESSION['member']->setBio($bio);
             } else {
-                $_SESSION['bio'] = 'No bio entered.';
+                $_SESSION['member']->setBio('No bio input.');
             }
-            $f3->reroute('/profile-interests');
+            if($f3->get('member') == 'premium'){
+                $f3->reroute('/profile-interests');
+            }
+            else{
+                $f3->reroute('/summary');
+            }
+
         }
     }
 
@@ -122,12 +140,12 @@ $f3->route('GET|POST /profile-interests', function ($f3){
 
         if (validForm3()) {
             if(!empty($outdoor) && !empty($indoor)){
-                $_SESSION['outdoor'] = implode(', ', $outdoor);
-                $_SESSION['indoor'] = implode(', ', $indoor);
+                $_SESSION['member']->setOutDoorInterests(implode(', ', $outdoor));
+                $_SESSION['member']->setInDoorInterests(implode(', ', $indoor));
             }
             else{
-                $_SESSION['outdoor'] = 'No outdoor selections made.';
-                $_SESSION['indoor'] = 'No indoor selections made.';
+                $_SESSION['outdoor'] = 'Not available for Non-Premium Members.';
+                $_SESSION['indoor'] = 'Not available for Non-Premium Members.';
             }
             $f3->reroute('/summary');
         }
