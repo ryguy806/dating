@@ -30,14 +30,15 @@ $f3->route('GET|POST /profile-start', function ($f3){
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $memberStatus = $_POST['premium'];
-
         //get the form data
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
         $age = $_POST['age'];
         $gender = $_POST['gender'];
         $phone = $_POST['phone'];
+        $memberStatus = $_POST['premium'];
+
+
 
         //add to the hive
         $f3->set('firstname', $firstname);
@@ -47,15 +48,16 @@ $f3->route('GET|POST /profile-start', function ($f3){
         $f3->set('phone', $phone);
         $f3->set('member', $memberStatus);
 
+
+
         if(validForm1()){
             if(empty($gender)) {
                 $gender = 'No gender selected.';
             }
-            if(!empty($memberStatus)){
+            if($memberStatus == 'premium'){
                 $premium = new PremiumMemeber($firstname, $lastname, $age, $gender, $phone);
                 $_SESSION['member'] = $premium;
-            }
-            else{
+            } else{
                 $member = new Member($firstname, $lastname, $age, $gender, $phone);
                 $_SESSION['member'] = $member;
             }
@@ -71,6 +73,8 @@ $f3->route('GET|POST /profile-start', function ($f3){
 
 $f3->route('GET|POST /profile-continue', function ($f3){
 
+    echo $f3->get('member');
+
     if(!empty($_POST)) {
         $email = $_POST['email'];
         $state = $_POST['state'];
@@ -82,8 +86,7 @@ $f3->route('GET|POST /profile-continue', function ($f3){
         $f3->set('seeking', $seeking);
         $f3->set('bio', $bio);
 
-
-        if (validEmail($f3->get('email'))) {
+        if (validEmail($email)) {
             $_SESSION['member']->setEmail($email);
             if (!empty($state)) {
                 $_SESSION['member']->setState($state);
@@ -100,13 +103,11 @@ $f3->route('GET|POST /profile-continue', function ($f3){
             } else {
                 $_SESSION['member']->setBio('No bio input.');
             }
-            if($f3->get('member') == 'premium'){
+            if(!$_SESSION['member'] instanceof PremiumMemeber){
+                $f3->reroute('/summary');
+            } else{
                 $f3->reroute('/profile-interests');
             }
-            else{
-                $f3->reroute('/summary');
-            }
-
         }
     }
 
@@ -133,12 +134,12 @@ $f3->route('GET|POST /profile-interests', function ($f3){
                 {
                     $_SESSION['member']->setOutdoorInterests($interest);
                 }
-                $_SESSION['indoor'] = implode($_SESSION['member']->getInDoorInterests());
-                $_SESSION['outdoor'] = implode($_SESSION['member']->getOutDoorInterests());
+                $_SESSION['indoor'] = implode(", ", $_SESSION['member']->getInDoorInterests());
+                $_SESSION['outdoor'] = implode(", ", $_SESSION['member']->getOutDoorInterests());
             }
             else{
-                $_SESSION['member']->setInDoorInterests("Not available to Non-Premium Members.");
-                $_SESSION['member']->setOutDoorInterests("Not available to Non-Premium Members.");
+                $_SESSION['indoor'] = "Not available as a Non-Premium member.";
+                $_SESSION['outdoor'] = "Not available as a Non-Premium member.";
             }
             $f3->reroute('/summary');
         }
