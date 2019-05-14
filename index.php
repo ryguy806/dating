@@ -126,20 +126,16 @@ $f3->route('GET|POST /profile-interests', function ($f3){
 
         if (validForm3()) {
             if(!empty($outdoor) && !empty($indoor)){
-                foreach ($indoor as $interest)
-                {
-                    $_SESSION['member']->setIndoorInterests($interest);
-                }
-                foreach ($outdoor as $interest)
-                {
-                    $_SESSION['member']->setOutdoorInterests($interest);
-                }
+
+                $_SESSION['member']->setIndoorInterests($f3->get('indoor'));
+                $_SESSION['member']->setOutdoorInterests($f3->get('outdoor'));
+
                 $_SESSION['indoor'] = implode(", ", $_SESSION['member']->getInDoorInterests());
                 $_SESSION['outdoor'] = implode(", ", $_SESSION['member']->getOutDoorInterests());
             }
             else{
-                $_SESSION['indoor'] = "Not available as a Non-Premium member.";
-                $_SESSION['outdoor'] = "Not available as a Non-Premium member.";
+                $_SESSION['indoor'] = "No Indoor Interests Provided.";
+                $_SESSION['outdoor'] = "No Outdoor Interests Provided.";
             }
             $f3->reroute('/summary');
         }

@@ -23,11 +23,9 @@
          */
         public function setInDoorInterests($inDoorInterests)
         {
-            if(empty($_inDoorInterests)){
-                $this->_inDoorInterests = array($inDoorInterests);
-            }else{
-                array_push($_inDoorInterests, $inDoorInterests);
-            }
+
+                $this->_inDoorInterests = $inDoorInterests;
+
         }
 
         /**
@@ -43,11 +41,7 @@
          */
         public function setOutDoorInterests($outDoorInterests)
         {
-            if(empty($_outDoorInterests)){
-                $this->_outDoorInterests = array($outDoorInterests);
-            }else{
-                array_push($_outDoorInterests, $outDoorInterests);
-            }
+            $this->_outDoorInterests = $outDoorInterests;
         }
 
     }

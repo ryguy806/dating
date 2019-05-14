@@ -26,17 +26,20 @@ function validForm1()
 function validForm3()
 {
     global $f3;
+
     $isValid = true;
     if (!validOutdoor($f3->get('outdoor'))) {
         $isValid = false;
         $f3->set("errors['outdoor']", "Selection not valid.");
         echo "Failed outdoor";
     }
+
     if (!validIndoor($f3->get('indoor'))) {
         $isValid = false;
         $f3->set("errors['indoor']", "Selection not valid.");
         echo "Failed indoor";
     }
+
     return $isValid;
 }
 
@@ -49,7 +52,7 @@ function validAge($age){
 }
 
 function validPhone($phone){
-    return preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $phone);
+    return preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $phone) || preg_match("/^[0-9]{10}/", $phone);
 }
 
 function validEmail($email){
