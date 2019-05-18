@@ -8,17 +8,14 @@ function validForm1()
     if (!validname($f3->get('firstname'), $f3->get('lastname'))) {
         $isValid = false;
         $f3->set("errors['name']", "Not a valid name, please enter a valid name.");
-        echo "Failed name";
     }
     if (!validAge($f3->get('age'))) {
         $isValid = false;
         $f3->set("errors['age']", "Please enter 1 or more.");
-        echo "Failed Age";
     }
     if (!validPhone($f3->get('phone'))) {
         $isValid = false;
         $f3->set("errors['phone']", "Please enter a valid phone number (123-456-7890).");
-        echo "Failed Phone";
     }
     return $isValid;
 }
